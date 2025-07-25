@@ -75,8 +75,22 @@ services:
     networks:
       - microservices_network
 
+  jenkins:
+    image: jenkins/jenkins:lts
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  # 👈 Monta el Docker del host
+      - jenkins_home:/var/jenkins_home
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+
+
 networks:
   microservices_network:
 
 volumes:
   mysql_data:
+  jenkins_home:
